@@ -26,16 +26,20 @@
         android:theme="@style/Theme.Monitoring"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <!-- Halaman LOGIN adalah yang pertama tampil -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name">
+            android:name=".ui.login.Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Dashboard / MainActivity muncul setelah login -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
