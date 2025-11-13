@@ -7,11 +7,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
@@ -26,6 +24,7 @@
         android:theme="@style/Theme.Monitoring"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <!-- Halaman LOGIN adalah yang pertama tampil -->
         <activity
             android:name=".ui.login.Login"
@@ -36,10 +35,17 @@
             </intent-filter>
         </activity>
 
-        <!-- Dashboard / MainActivity muncul setelah login -->
+        <!-- Dashboard / MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-    </application>
 
+        <!-- Detail AUX -->
+        <activity
+            android:name=".ui.auxx.AuxDetailActivity"
+            android:exported="false"
+            android:label="Detail AUX"
+            android:theme="@style/Theme.Monitoring" />
+
+    </application>
 </manifest>

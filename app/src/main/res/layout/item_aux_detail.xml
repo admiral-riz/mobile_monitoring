@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="6dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView android:id="@+id/tvMulai" android:layout_width="120dp" android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/tvSelesai" android:layout_width="120dp" android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/tvDurasi" android:layout_width="100dp" android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/tvStatus" android:layout_width="80dp" android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/tvKeterangan" android:layout_width="150dp" android:layout_height="wrap_content"/>
+</LinearLayout>

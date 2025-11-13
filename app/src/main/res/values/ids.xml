@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textChannelTitle" type="id" />
+    <item name="recyclerFixed" type="id" />
+    <item name="recyclerMobile" type="id" />
+    <item name="txtNo" type="id" />
+    <item name="txtAgent" type="id" />
+    <item name="txtSite" type="id" />
+    <item name="txtI1" type="id" />
+    <item name="txtI2" type="id" />
+    <item name="txtI3" type="id" />
+    <item name="txtToilet" type="id" />
+    <item name="txtIbadah" type="id" />
+    <item name="txtStatus" type="id" />
+    <item name="txtTotal" type="id" />
+    <item name="tvDetailTitle" type="id" />
+    <item name="tvDetailSubtitle" type="id" />
+    <item name="rvAuxDetail" type="id" />
+    <item name="tvTotalDuration" type="id" />
+    <item name="tvTotalMinutes" type="id" />
+    <item name="tvSummaryStatus" type="id" />
+</resources>

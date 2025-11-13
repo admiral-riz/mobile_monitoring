@@ -45,7 +45,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     //Harus diganti
+
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
+    implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
