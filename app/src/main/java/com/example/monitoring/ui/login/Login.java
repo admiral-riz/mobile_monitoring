@@ -2,7 +2,9 @@ package com.example.monitoring.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -23,10 +25,14 @@ public class Login extends AppCompatActivity {
     private TextInputEditText etUsername, etPassword;
     private MaterialButton btnLogin;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
@@ -50,24 +56,33 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse loginResponse = response.body();
 
                     if (loginResponse.isSuccess()) {
+
+                        // --- SIMPAN USER DATA ---
+                        LoginResponse.Data userData = loginResponse.getData();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("id", String.valueOf(userData.getUser_id()));
+                        editor.putString("username", userData.getUsername());
+                        editor.putString("role", userData.getRole());
+                        editor.putString("token", userData.getToken());
+                        editor.apply();
+                        // -------------------------
+
                         Toast.makeText(Login.this, "Login berhasil", Toast.LENGTH_SHORT).show();
 
-                        // Pindah ke halaman dashboard (MainActivity)
                         Intent intent = new Intent(Login.this, MainActivity.class);
                         startActivity(intent);
 
-                        // Pastikan activity dihancurkan setelah login berhasil
-                        finishAffinity(); // Menutup semua activity dalam task
-                        // atau bisa juga menggunakan:
-                        // finish(); // Hanya menutup activity saat ini
-
+                        finishAffinity();
                     } else {
                         Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+
                 } else {
                     Toast.makeText(Login.this, "Login gagal! Periksa koneksi atau server.", Toast.LENGTH_SHORT).show();
                 }
@@ -78,12 +93,5 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Tambahkan log atau cleanup code di sini jika diperlukan
-        System.out.println("Login Activity Destroyed");
     }
 }

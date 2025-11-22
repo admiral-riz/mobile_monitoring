@@ -1,34 +1,101 @@
 package com.example.monitoring.ui.profile;
 
-
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.example.monitoring.api.RegisterAPI;
+import com.example.monitoring.api.ServerAPI;
 import com.example.monitoring.databinding.FragmentProfileBinding;
+import com.example.monitoring.model.ProfileResponse;
+import com.example.monitoring.ui.kelola.KelolaDataActivity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
+    private SharedPreferences sharedPreferences;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ProfileViewModel profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textProfile;
-        profileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        sharedPreferences = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+
+        loadProfile();
+
+        binding.btnRefresh.setOnClickListener(v -> loadProfile());
+
+        binding.btnLogout.setOnClickListener(v -> logout());
+
+        binding.btnKelolaData.setOnClickListener(v -> {
+            Intent i = new Intent(getActivity(), KelolaDataActivity.class);
+            startActivity(i);
+        });
+
         return root;
     }
+
+    private void loadProfile() {
+        String userId = sharedPreferences.getString("id", null);
+
+        if (userId == null) {
+            Toast.makeText(getContext(), "User ID tidak ditemukan!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        RegisterAPI api = ServerAPI.getClient().create(RegisterAPI.class);
+        Call<ProfileResponse> call = api.getProfile(userId);
+
+        call.enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    ProfileResponse.ProfileData data = response.body().getData();
+
+                    binding.tvName.setText(data.getName());
+                    binding.tvRole.setText(data.getRole());
+                    binding.tvCreated.setText("Created At: " + data.getCreated_at());
+                    binding.tvUpdated.setText("Updated At: " + data.getUpdated_at());
+                } else {
+                    Toast.makeText(getContext(), "Gagal mengambil data!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void logout() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
+        Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getActivity(), com.example.monitoring.ui.login.Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
