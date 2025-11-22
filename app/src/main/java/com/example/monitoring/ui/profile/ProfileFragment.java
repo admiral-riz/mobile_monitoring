@@ -17,6 +17,7 @@ import com.example.monitoring.api.ServerAPI;
 import com.example.monitoring.databinding.FragmentProfileBinding;
 import com.example.monitoring.model.ProfileResponse;
 import com.example.monitoring.ui.kelola.KelolaDataActivity;
+import com.example.monitoring.ui.login.Login;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,17 +41,18 @@ public class ProfileFragment extends Fragment {
 
         binding.btnRefresh.setOnClickListener(v -> loadProfile());
 
-        binding.btnLogout.setOnClickListener(v -> logout());
-
         binding.btnKelolaData.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), KelolaDataActivity.class);
             startActivity(i);
         });
 
+        binding.btnLogout.setOnClickListener(v -> logout());
+
         return root;
     }
 
     private void loadProfile() {
+
         String userId = sharedPreferences.getString("id", null);
 
         if (userId == null) {
@@ -65,12 +67,19 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+
                     ProfileResponse.ProfileData data = response.body().getData();
 
+                    // Header
                     binding.tvName.setText(data.getName());
                     binding.tvRole.setText(data.getRole());
-                    binding.tvCreated.setText("Created At: " + data.getCreated_at());
-                    binding.tvUpdated.setText("Updated At: " + data.getUpdated_at());
+
+                    // Card Detail
+                    binding.tvUsername.setText("Username : " + data.getName());
+                    binding.tvRolename.setText("Role : " + data.getRole());
+                    binding.tvCreated.setText("Created At : " + data.getCreated_at());
+                    binding.tvUpdated.setText("Updated At : " + data.getUpdated_at());
+
                 } else {
                     Toast.makeText(getContext(), "Gagal mengambil data!", Toast.LENGTH_SHORT).show();
                 }
@@ -84,17 +93,20 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
+
+        // Hapus session
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
 
         Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getActivity(), com.example.monitoring.ui.login.Login.class);
+        // Arahkan ke Login Activity
+        Intent intent = new Intent(getActivity(), Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-    }
 
+    }
 
     @Override
     public void onDestroyView() {

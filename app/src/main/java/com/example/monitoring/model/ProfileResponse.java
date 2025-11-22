@@ -1,14 +1,14 @@
 package com.example.monitoring.model;
 
 public class ProfileResponse {
+
     private boolean success;
     private ProfileData data;
 
     public boolean isSuccess() { return success; }
-
     public ProfileData getData() { return data; }
 
-    public static class ProfileData {
+    public class ProfileData {
         private String name;
         private String role;
         private String created_at;
@@ -20,3 +20,4 @@ public class ProfileResponse {
         public String getUpdated_at() { return updated_at; }
     }
 }
+
