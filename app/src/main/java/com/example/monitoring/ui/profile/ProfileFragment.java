@@ -16,6 +16,7 @@ import com.example.monitoring.api.RegisterAPI;
 import com.example.monitoring.api.ServerAPI;
 import com.example.monitoring.databinding.FragmentProfileBinding;
 import com.example.monitoring.model.ProfileResponse;
+import com.example.monitoring.ui.activitylog.ActivityLogActivity;
 import com.example.monitoring.ui.kelola.KelolaDataActivity;
 import com.example.monitoring.ui.login.Login;
 
@@ -39,7 +40,12 @@ public class ProfileFragment extends Fragment {
 
         loadProfile();
 
-        binding.btnRefresh.setOnClickListener(v -> loadProfile());
+        binding.btnActivityLog.setOnClickListener(v -> loadProfile());
+        binding.btnActivityLog.setOnClickListener(v -> {
+            Intent i = new Intent(getActivity(), ActivityLogActivity.class);
+            startActivity(i);
+        });
+
 
         binding.btnKelolaData.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), KelolaDataActivity.class);

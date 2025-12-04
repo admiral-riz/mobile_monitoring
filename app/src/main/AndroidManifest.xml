@@ -40,9 +40,13 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- Tambahkan INI -->
+        <!-- Kelola Data -->
         <activity
             android:name=".ui.kelola.KelolaDataActivity"
+            android:exported="false"/>
+        <!-- Activity Log -->
+        <activity
+            android:name=".ui.activitylog.ActivityLogActivity"
             android:exported="false"/>
 
         <!-- Detail AUX -->

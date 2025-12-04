@@ -115,7 +115,8 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- BUTTONS SECTION -->
+
+        <!-- BUTTON SECTION -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,12 +140,12 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- Tombol Refresh -->
+            <!-- Tombol Activity Log (Pengganti Refresh) -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRefresh"
+                android:id="@+id/btnActivityLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🔄 REFRESH"
+                android:text="📜 ACTIVITY LOG"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 style="@style/Widget.MaterialComponents.Button"
@@ -169,7 +170,6 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
-
 
     </LinearLayout>
 </ScrollView>

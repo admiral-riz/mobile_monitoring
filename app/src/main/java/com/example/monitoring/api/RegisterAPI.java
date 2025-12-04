@@ -1,5 +1,6 @@
 package com.example.monitoring.api;
 
+import com.example.monitoring.model.ActivityLogResponse;
 import com.example.monitoring.model.AuxDetailResponse;
 import com.example.monitoring.model.AuxResponse;
 import com.example.monitoring.model.DeleteResponse;
@@ -54,6 +55,13 @@ public interface RegisterAPI {
             @Field("table") String table,
             @Field("ids[]") List<Integer> ids
     );
+    @GET("api/activity-log")
+    Call<ActivityLogResponse> getActivityLogs(
+            @Query("page") int page,
+            @Query("user_id") String userId
+    );
+
+
 
 
 }
