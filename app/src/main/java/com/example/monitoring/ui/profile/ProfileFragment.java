@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.monitoring.api.RegisterAPI;
 import com.example.monitoring.api.ServerAPI;
 import com.example.monitoring.databinding.FragmentProfileBinding;
+import com.example.monitoring.model.DeleteResponse;
 import com.example.monitoring.model.ProfileResponse;
 import com.example.monitoring.ui.activitylog.ActivityLogActivity;
 import com.example.monitoring.ui.kelola.KelolaDataActivity;
@@ -100,19 +101,44 @@ public class ProfileFragment extends Fragment {
 
     private void logout() {
 
-        // Hapus session
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+        String userId = sharedPreferences.getString("id", null);
 
-        Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+        RegisterAPI api = ServerAPI.getClient().create(RegisterAPI.class);
+        Call<DeleteResponse> call = api.logout(userId);
 
-        // Arahkan ke Login Activity
-        Intent intent = new Intent(getActivity(), Login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        call.enqueue(new Callback<DeleteResponse>() {
+            @Override
+            public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
 
+                // tetap lanjut logout meskipun API gagal
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+
+                Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity(), Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<DeleteResponse> call, Throwable t) {
+
+                // tetap logout meskipun API gagal
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+
+                Toast.makeText(getContext(), "Logout error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getActivity(), Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public void onDestroyView() {

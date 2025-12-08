@@ -1,58 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
-    <!-- Tombol Kembali -->
-    <Button
+    <!-- Tombol Back -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBackToProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kembali"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/white"
+        app:cornerRadius="20dp"
+        android:paddingHorizontal="20dp"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Filter Section -->
-    <LinearLayout
-        android:id="@+id/filterSection"
-        android:orientation="horizontal"
+    <!-- CARD FILTER -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFilter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/btnBackToProfile"
+        android:layout_marginTop="16dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btnBackToProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Spinner
-            android:id="@+id/spinnerActivity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnFilter"
-            android:text="Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp" />
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/spinnerActivity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFilter"
+                android:text="Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                app:cornerRadius="18dp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Tombol Hapus Log Lama -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDeleteOldLogs"
-        android:text="Hapus Log Lama"
-        android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/filterSection"
+        android:text="Hapus Log Lama"
+        android:textColor="@android:color/white"
+        app:cornerRadius="20dp"
+        android:paddingHorizontal="20dp"
+
+        app:layout_constraintTop_toBottomOf="@id/cardFilter"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -62,42 +78,50 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/btnDeleteOldLogs"
-        app:layout_constraintBottom_toTopOf="@+id/paginationLayout"
+        app:layout_constraintTop_toBottomOf="@id/btnDeleteOldLogs"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/paginationLayout" />
 
-    <!-- Pagination -->
+    <!-- Pagination Section -->
     <LinearLayout
         android:id="@+id/paginationLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
+        android:gravity="center"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrev"
-            android:text="Prev"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Prev"
+            app:cornerRadius="16dp"
+            app:backgroundTint="#607D8B"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/txtPage"
-            android:text="Halaman: 1"
-            android:textSize="16sp"
-            android:padding="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingHorizontal="20dp"
+            android:textColor="#333" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
-            android:text="Next"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Next"
+            app:cornerRadius="16dp"
+            app:backgroundTint="#607D8B"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

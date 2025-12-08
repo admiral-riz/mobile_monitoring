@@ -26,6 +26,12 @@ public interface RegisterAPI {
             @Field("username") String username,
             @Field("password") String password
     );
+    @FormUrlEncoded
+    @POST("api/logout")
+    Call<DeleteResponse> logout(
+            @Field("user_id") String userId
+    );
+
 
     @GET("api/kip/top")
     Call<KipResponse> getTopKip(@Query("date") String date);
