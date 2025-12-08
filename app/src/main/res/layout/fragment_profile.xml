@@ -130,7 +130,7 @@
                 android:id="@+id/btnKelolaData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📁 KELOLA DATA"
+                android:text="📁 MANAGE DATA"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 style="@style/Widget.MaterialComponents.Button"

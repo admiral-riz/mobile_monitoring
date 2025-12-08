@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ import retrofit2.Response;
 public class ActivityLogActivity extends AppCompatActivity {
 
     Spinner spinnerActivity;
-    Button btnFilter, btnPrev, btnNext, btnBackToProfile, btnDeleteOldLogs;
+    Button btnFilter, btnPrev, btnNext, btnDeleteOldLogs;
+    ImageView btnBackToProfile;
     TextView txtPage;
     RecyclerView recycler;
     ActivityLogAdapter adapter;

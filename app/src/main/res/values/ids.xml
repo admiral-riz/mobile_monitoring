@@ -19,4 +19,5 @@
     <item name="tvTotalDuration" type="id" />
     <item name="tvTotalMinutes" type="id" />
     <item name="tvSummaryStatus" type="id" />
+    <item name="paginationLayout" type="id" />
 </resources>

@@ -42,6 +42,9 @@ public class KelolaDataActivity extends AppCompatActivity {
         binding = ActivityKelolaDataBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // tombol kembali
+        binding.btnBack.setOnClickListener(v -> finish());
+
         setupSpinner();
         binding.recyclerKelola.setLayoutManager(new LinearLayoutManager(this));
 
