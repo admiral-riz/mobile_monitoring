@@ -57,10 +57,11 @@ public interface RegisterAPI {
     );
     @GET("api/activity-log")
     Call<ActivityLogResponse> getActivityLog(
-            @Query("is_mobile") String isMobile,
-            @Query("action") String action,
-            @Query("page") int page
+            @Query("activity") String activity,
+            @Query("page") int page,
+            @Query("is_mobile") String isMobile
     );
+
 
 
 

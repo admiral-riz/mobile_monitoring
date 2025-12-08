@@ -51,28 +51,25 @@ public class ActivityLogActivity extends AppCompatActivity {
         loadData();
 
         btnFilter.setOnClickListener(v -> {
+
             String selected = spinnerActivity.getSelectedItem().toString();
 
-            switch (selected) {
-                case "Login":
-                    selectedAction = "Login";
-                    break;
-                case "Logout":
-                    selectedAction = "Logout";
-                    break;
-                case "Upload File":
-                    selectedAction = "Upload File";
-                    break;
-                case "Hitung Bucket":
-                    selectedAction = "Hitung Bucket";
-                    break;
-                default:
-                    selectedAction = ""; // Semua aktivitas
+            if (selected.equals("Semua Aktivitas")) {
+                selectedAction = "";  // tampilkan semua
+            } else if (selected.equals("Login")) {
+                selectedAction = "login";
+            } else if (selected.equals("Logout")) {
+                selectedAction = "logout";
+            } else if (selected.equals("Upload File")) {
+                selectedAction = "upload";
+            } else if (selected.equals("Hitung Bucket")) {
+                selectedAction = "bucket";
             }
 
             currentPage = 1;
             loadData();
         });
+
 
         btnPrev.setOnClickListener(v -> {
             if (currentPage > 1) {
@@ -103,9 +100,9 @@ public class ActivityLogActivity extends AppCompatActivity {
                 .create(RegisterAPI.class);
 
         Call<ActivityLogResponse> call = api.getActivityLog(
-                "true",
-                selectedAction,    // FIXED: kirim action, bukan nama spinner langsung
-                currentPage
+                selectedAction,   // langsung kirim action
+                currentPage,
+                "true"
         );
 
         call.enqueue(new Callback<ActivityLogResponse>() {
@@ -119,10 +116,19 @@ public class ActivityLogActivity extends AppCompatActivity {
 
                 List<ActivityLogResponse.LogData> list = response.body().getData().getLogs();
 
+                if (list == null || list.isEmpty()) {
+                    Toast.makeText(ActivityLogActivity.this, "Tidak ada data", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 adapter = new ActivityLogAdapter(list);
                 recycler.setAdapter(adapter);
 
                 txtPage.setText("Halaman: " + currentPage);
+
+                // Control tombol prev/next
+                btnPrev.setEnabled(currentPage > 1);
+                btnNext.setEnabled(list.size() >= response.body().getData().getPerPage());
             }
 
             @Override
