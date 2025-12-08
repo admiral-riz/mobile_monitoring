@@ -3,6 +3,7 @@ package com.example.monitoring.api;
 import com.example.monitoring.model.ActivityLogResponse;
 import com.example.monitoring.model.AuxDetailResponse;
 import com.example.monitoring.model.AuxResponse;
+import com.example.monitoring.model.DashboardResponse;
 import com.example.monitoring.model.DeleteResponse;
 import com.example.monitoring.model.KelolaDataResponse;
 import com.example.monitoring.model.KipResponse;
@@ -74,6 +75,9 @@ public interface RegisterAPI {
     Call<DeleteResponse> cleanOldLogs(
             @Field("days") int days
     );
+
+    @GET("api/dashboard")
+    Call<DashboardResponse> getDashboardData(@Query("date") String date);
 
 
 }
