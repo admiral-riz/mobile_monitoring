@@ -62,10 +62,12 @@ public interface RegisterAPI {
             @Query("is_mobile") String isMobile
     );
 
-
-
-
-
+    // Hapus log lama (days)
+    @FormUrlEncoded
+    @POST("api/activity-log/clean")
+    Call<DeleteResponse> cleanOldLogs(
+            @Field("days") int days
+    );
 
 
 }
