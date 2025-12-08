@@ -56,10 +56,13 @@ public interface RegisterAPI {
             @Field("ids[]") List<Integer> ids
     );
     @GET("api/activity-log")
-    Call<ActivityLogResponse> getActivityLogs(
-            @Query("page") int page,
-            @Query("user_id") String userId
+    Call<ActivityLogResponse> getActivityLog(
+            @Query("is_mobile") String isMobile,
+            @Query("action") String action,
+            @Query("page") int page
     );
+
+
 
 
 
