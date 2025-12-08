@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:padding="6dp"
+    android:padding="10dp"
     android:gravity="center_vertical"
+    android:background="#FFFFFF"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#FAFAFA">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvNo"
         android:layout_width="50dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textSize="14sp"
+        android:textColor="#333"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tvAgent"
-        android:layout_width="200dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:ellipsize="none"
-        android:singleLine="false" />
+        android:textSize="14sp"
+        android:textColor="#333" />
 
     <TextView
         android:id="@+id/tvSite"
         android:layout_width="80dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textSize="14sp"
+        android:textColor="#555"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tvIst1"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textColor="#555"
+        android:textSize="14sp"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tvIst2"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textColor="#555"
+        android:textSize="14sp"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tvIst3"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textColor="#555"
+        android:textSize="14sp"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tvToilet"
         android:layout_width="80dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textColor="#555"
+        android:textSize="14sp"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tvIbadah"
         android:layout_width="80dp"
         android:gravity="center"
-        android:textSize="13sp"
+        android:textColor="#555"
+        android:textSize="14sp"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -69,7 +75,8 @@
         android:layout_width="80dp"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="13sp"
+        android:textColor="#000"
+        android:textSize="14sp"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -77,16 +84,18 @@
         android:layout_width="100dp"
         android:gravity="center"
         android:textSize="13sp"
+        android:padding="4dp"
+        android:background="#DDDDDD"
+        android:textColor="#FFFFFF"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="34dp"
         android:text="Detail"
-        android:textSize="10sp"
-        android:backgroundTint="#3F51B5"
+        android:textSize="12sp"
+        android:backgroundTint="#1976D2"
         android:textColor="@android:color/white"
-        android:padding="4dp"
-        android:layout_marginStart="4dp" />
+        android:layout_marginStart="6dp" />
 </LinearLayout>
