@@ -2,103 +2,120 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Judul Dashboard -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dashboard"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:paddingBottom="16dp" />
-
-        <!-- Tombol pilih tanggal -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
-
-            <Button
-                android:id="@+id/btnDateKip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Pilih Tanggal KIP" />
-
-            <Button
-                android:id="@+id/btnDateAux"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Pilih Tanggal AUX"
-                android:layout_marginStart="8dp"/>
-        </LinearLayout>
-
-        <!-- Pie Chart KIP utama -->
+        <!-- ===== KIP Section ===== -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distribusi KIP"
-            android:textSize="16sp"
+            android:text="KIP Dashboard"
             android:textStyle="bold"
-            android:paddingBottom="4dp"/>
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="16dp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
 
-        <!-- Bar Chart AUX utama -->
+        <!-- Tombol pilih tanggal KIP -->
+        <Button
+            android:id="@+id/btnSelectDateKip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Tanggal KIP"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- PieChart Fixed -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Durasi AUX (Menit)"
-            android:textSize="16sp"
+            android:text="PieChart Fixed per Channel"
             android:textStyle="bold"
-            android:paddingBottom="4dp"/>
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Line Chart KIP per jam utama -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jumlah KIP per Jam"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp"/>
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Container untuk Top 5 KIP -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Top 5 KIP"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="8dp"/>
-        <LinearLayout
-            android:id="@+id/top5Container"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartFixed"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/textFixedInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- PieChart Mobile -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PieChart Mobile per Channel"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartMobile"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/textMobileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- ===== AUX Section ===== -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AUX Dashboard"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Tombol pilih tanggal AUX -->
+        <Button
+            android:id="@+id/btnSelectDateAux"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Tanggal AUX"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- BarChart AUX -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BarChart AUX per Status"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChartAux"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/textAuxInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
 
     </LinearLayout>

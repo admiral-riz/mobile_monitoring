@@ -79,5 +79,4 @@ public interface RegisterAPI {
     @GET("api/dashboard")
     Call<DashboardResponse> getDashboardData(@Query("date") String date);
 
-
 }

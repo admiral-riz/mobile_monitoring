@@ -20,4 +20,5 @@
     <item name="tvTotalMinutes" type="id" />
     <item name="tvSummaryStatus" type="id" />
     <item name="paginationLayout" type="id" />
+    <item name="pieChartSummary" type="id" />
 </resources>
