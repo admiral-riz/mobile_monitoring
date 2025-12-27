@@ -25,7 +25,7 @@
              />
 
         <TextView
-            android:text="Log Aktivitas"
+            android:text="Activity Log"
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingStart="10dp"

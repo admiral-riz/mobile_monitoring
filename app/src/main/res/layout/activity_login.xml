@@ -95,23 +95,6 @@
             android:textSize="16sp"
             app:backgroundTint="#FF0000" />
 
-        <!-- FORGOT PASSWORD -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="Forgot your password?"
-            android:textColor="#777777" />
-
-        <TextView
-            android:id="@+id/tvReset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Reset it here"
-            android:textColor="#FF0000"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </RelativeLayout>
