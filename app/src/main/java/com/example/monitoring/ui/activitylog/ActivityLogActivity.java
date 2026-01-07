@@ -2,10 +2,8 @@ package com.example.monitoring.ui.activitylog;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,44 +38,34 @@ public class ActivityLogActivity extends AppCompatActivity {
     ActivityLogAdapter adapter;
 
     int currentPage = 1;
-    String selectedAction = ""; // nilai yang dikirim ke API: login, upload, bucket, dsb
-    int perPageFromResponse = 10; // fallback
+    int totalPage = 1;
+    String selectedAction = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_log);
 
-        spinnerActivity = findViewById(R.id.spinnerActivity);
-        btnFilter = findViewById(R.id.btnFilter);
-        btnPrev = findViewById(R.id.btnPrev);
-        btnNext = findViewById(R.id.btnNext);
-        txtPage = findViewById(R.id.txtPage);
-        recycler = findViewById(R.id.recyclerActivityLog);
-        btnBackToProfile = findViewById(R.id.btnBackToProfile);
+        spinnerActivity  = findViewById(R.id.spinnerActivity);
+        btnFilter        = findViewById(R.id.btnFilter);
+        btnPrev          = findViewById(R.id.btnPrev);
+        btnNext          = findViewById(R.id.btnNext);
         btnDeleteOldLogs = findViewById(R.id.btnDeleteOldLogs);
+        txtPage          = findViewById(R.id.txtPage);
+        recycler         = findViewById(R.id.recyclerActivityLog);
+        btnBackToProfile = findViewById(R.id.btnBackToProfile);
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
-
         setupSpinner();
         loadData();
 
         btnFilter.setOnClickListener(v -> {
             String selected = spinnerActivity.getSelectedItem().toString();
-
-            if (selected.equals("Semua Aktivitas")) {
-                selectedAction = "";
-            } else if (selected.equals("Login")) {
-                selectedAction = "login";
-            } else if (selected.equals("Logout")) {
-                selectedAction = "logout";
-            } else if (selected.equals("Upload File")) {
-                selectedAction = "upload";
-            } else if (selected.equals("Hitung Bucket")) {
-                selectedAction = "bucket";
-            } else {
-                selectedAction = "";
-            }
+            if (selected.equals("Semua Aktivitas")) selectedAction = "";
+            else if (selected.equals("Login")) selectedAction = "login";
+            else if (selected.equals("Logout")) selectedAction = "logout";
+            else if (selected.equals("Upload File")) selectedAction = "upload";
+            else if (selected.equals("Hitung Bucket")) selectedAction = "bucket";
 
             currentPage = 1;
             loadData();
@@ -91,83 +79,56 @@ public class ActivityLogActivity extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> {
-            currentPage++;
-            loadData();
+            if (currentPage < totalPage) {
+                currentPage++;
+                loadData();
+            }
         });
 
-        // Tombol Kembali -> finish activity (kembali ke profile/activity sebelumnya)
-        btnBackToProfile.setOnClickListener(v -> {
-            finish(); // jika ingin buka ProfileActivity: buat Intent ke ProfileActivity
-        });
-
-        // Tombol Hapus Log Lama
+        btnBackToProfile.setOnClickListener(v -> finish());
         btnDeleteOldLogs.setOnClickListener(v -> showDeleteOldLogsDialog());
     }
 
-    void setupSpinner() {
+    private void setupSpinner() {
         String[] items = {"Semua Aktivitas", "Login", "Logout", "Upload File", "Hitung Bucket"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                items
-        );
-        spinnerActivity.setAdapter(adapter);
+        spinnerActivity.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, items));
     }
 
-    void loadData() {
+    private void loadData() {
+        RegisterAPI api = RetrofitClientInstance.getRetrofitInstance().create(RegisterAPI.class);
 
-        RegisterAPI api = RetrofitClientInstance.getRetrofitInstance()
-                .create(RegisterAPI.class);
+        api.getActivityLog(selectedAction, currentPage, "true")
+                .enqueue(new Callback<ActivityLogResponse>() {
+                    @Override
+                    public void onResponse(Call<ActivityLogResponse> call, Response<ActivityLogResponse> response) {
 
-        Call<ActivityLogResponse> call = api.getActivityLog(
-                selectedAction,
-                currentPage,
-                "true"
-        );
+                        if (!response.isSuccessful() || response.body() == null) {
+                            Toast.makeText(ActivityLogActivity.this, "Gagal memuat data", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-        call.enqueue(new Callback<ActivityLogResponse>() {
-            @Override
-            public void onResponse(Call<ActivityLogResponse> call, Response<ActivityLogResponse> response) {
+                        List<ActivityLogResponse.LogData> list = response.body().getData().getLogs();
+                        adapter = new ActivityLogAdapter(list);
+                        recycler.setAdapter(adapter);
 
-                if (!response.isSuccessful() || response.body() == null) {
-                    Toast.makeText(ActivityLogActivity.this, "Gagal memuat data", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                        int totalData = response.body().getData().getTotal();
+                        int perPage   = response.body().getData().getPerPage();
+                        totalPage = (int) Math.ceil((double) totalData / perPage);
 
-                List<ActivityLogResponse.LogData> list = response.body().getData().getLogs();
+                        txtPage.setText(currentPage + " / " + totalPage);
+                        btnPrev.setEnabled(currentPage > 1);
+                        btnNext.setEnabled(currentPage < totalPage);
+                    }
 
-                if (list == null || list.isEmpty()) {
-                    // jika kosong, tetap tampilkan kosong tapi jangan return agar prev/next dapat di-handle
-                    Toast.makeText(ActivityLogActivity.this, "Tidak ada data", Toast.LENGTH_SHORT).show();
-                }
-
-                adapter = new ActivityLogAdapter(list);
-                recycler.setAdapter(adapter);
-
-                txtPage.setText(" " + currentPage+ " ");
-
-                // perPage jika dikembalikan dari response
-                try {
-                    perPageFromResponse = response.body().getData().getPerPage();
-                } catch (Exception e) {
-                    perPageFromResponse = 10;
-                }
-
-                // Control tombol prev/next
-                btnPrev.setEnabled(currentPage > 1);
-                // Jika jumlah item < perPage -> disable next
-                btnNext.setEnabled(list != null && list.size() >= perPageFromResponse);
-            }
-
-            @Override
-            public void onFailure(Call<ActivityLogResponse> call, Throwable t) {
-                Toast.makeText(ActivityLogActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ActivityLogResponse> call, Throwable t) {
+                        Toast.makeText(ActivityLogActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void showDeleteOldLogsDialog() {
-        // Dialog input jumlah hari (default 60)
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Hapus Log Lama");
         builder.setMessage("Masukkan jumlah hari. Log lebih lama dari hari ini akan dihapus.");
@@ -178,16 +139,9 @@ public class ActivityLogActivity extends AppCompatActivity {
         builder.setView(input);
 
         builder.setPositiveButton("Hapus", (dialog, which) -> {
-            String val = input.getText().toString().trim();
-            int days = 60;
-            if (!val.isEmpty()) {
-                try {
-                    days = Integer.parseInt(val);
-                    if (days <= 0) days = 60;
-                } catch (NumberFormatException e) {
-                    days = 60;
-                }
-            }
+            int days = input.getText().toString().isEmpty()
+                    ? 60
+                    : Integer.parseInt(input.getText().toString());
             confirmAndDeleteOldLogs(days);
         });
 
@@ -196,47 +150,42 @@ public class ActivityLogActivity extends AppCompatActivity {
     }
 
     private void confirmAndDeleteOldLogs(int days) {
+        String filterName = selectedAction.equals("")
+                ? "SEMUA AKTIVITAS"
+                : selectedAction.toUpperCase();
+
         new AlertDialog.Builder(this)
                 .setTitle("Konfirmasi")
-                .setMessage("Yakin hapus log yang lebih lama dari " + days + " hari?")
-                .setPositiveButton("Ya", (dialog, which) -> doDeleteOldLogs(days))
+                .setMessage("Yakin hapus log \"" + filterName + "\" yang lebih lama dari " + days + " hari?")
+                .setPositiveButton("Ya", (d, w) -> doDeleteOldLogs(days))
                 .setNegativeButton("Tidak", null)
                 .show();
     }
 
     private void doDeleteOldLogs(int days) {
         ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Menghapus log...");
+        pd.setMessage("Menghapus log sesuai filter...");
         pd.setCancelable(false);
         pd.show();
 
         RegisterAPI api = RetrofitClientInstance.getRetrofitInstance().create(RegisterAPI.class);
 
-        Call<DeleteResponse> call = api.cleanOldLogs(days);
-        call.enqueue(new Callback<DeleteResponse>() {
-            @Override
-            public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
-                pd.dismiss();
-                if (!response.isSuccessful() || response.body() == null) {
-                    Toast.makeText(ActivityLogActivity.this, "Gagal menghapus log", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                DeleteResponse res = response.body();
-                if (res.isSuccess()) {
-                    Toast.makeText(ActivityLogActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
-                    // reload data
-                    currentPage = 1;
-                    loadData();
-                } else {
-                    Toast.makeText(ActivityLogActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
+        api.cleanOldLogs(days, selectedAction)
+                .enqueue(new Callback<DeleteResponse>() {
+                    @Override
+                    public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
+                        pd.dismiss();
+                        Toast.makeText(ActivityLogActivity.this,
+                                response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        currentPage = 1;
+                        loadData();
+                    }
 
-            @Override
-            public void onFailure(Call<DeleteResponse> call, Throwable t) {
-                pd.dismiss();
-                Toast.makeText(ActivityLogActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<DeleteResponse> call, Throwable t) {
+                        pd.dismiss();
+                        Toast.makeText(ActivityLogActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

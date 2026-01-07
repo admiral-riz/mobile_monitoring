@@ -100,43 +100,31 @@
 
     <!-- PAGINATION MODERN -->
     <LinearLayout
-        android:id="@id/paginationLayout"
+        android:id="@+id/paginationLayout"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="12dp"
-        android:orientation="horizontal"
-        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnPrev"
-            android:text="Prev"
+            android:text="Previous"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cornerRadius="14dp"
-            app:backgroundTint="#607D8B"
-            android:textColor="@android:color/white" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/txtPage"
+            android:text="1 / 1"
+            android:padding="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="22dp"
-            android:textColor="#333" />
+            android:layout_height="wrap_content"/>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnNext"
             android:text="Next"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cornerRadius="14dp"
-            app:backgroundTint="#607D8B"
-            android:textColor="@android:color/white" />
-
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

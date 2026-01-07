@@ -79,4 +79,12 @@ public interface RegisterAPI {
     @GET("api/dashboard")
     Call<DashboardResponse> getDashboardData(@Query("date") String date);
 
+    @FormUrlEncoded
+    @POST("api/activity-log/clean")
+    Call<DeleteResponse> cleanOldLogs(
+            @Field("days") int days,
+            @Field("activity") String activity
+    );
+
+
 }

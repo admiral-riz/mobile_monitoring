@@ -14,11 +14,14 @@ public class ActivityLogResponse {
         private List<LogData> logs;
         private int currentPage;
         private int perPage;
+        private int total;
 
         public List<LogData> getLogs() { return logs; }
         public int getCurrentPage() { return currentPage; }
         public int getPerPage() { return perPage; }
+        public int getTotal() { return total; }
     }
+
 
     public class LogData {
         private int id;

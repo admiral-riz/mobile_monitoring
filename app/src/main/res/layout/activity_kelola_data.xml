@@ -27,10 +27,9 @@
             android:paddingStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
-    <!-- CARD FILTER -->
+    <!-- FILTER -->
     <LinearLayout
         android:orientation="vertical"
         android:background="@android:color/white"
@@ -58,8 +57,6 @@
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:textColor="@android:color/white"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -72,7 +69,34 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- DELETE BUTTON -->
+    <!-- PAGINATION -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnPrev"
+            android:text="Previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtPage"
+            android:text="1 / 1"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:text="Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- DELETE -->
     <Button
         android:id="@+id/btnDelete"
         android:text="Hapus Data Terpilih"
@@ -81,5 +105,4 @@
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>
